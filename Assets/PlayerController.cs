@@ -23,7 +23,6 @@ public class PlayerController : MonoBehaviour
         //newPos.x = newPos.x + 5;
         //transform.position = newPos;
         /* transform.position = Vector3.one; */ // (1,1,1)ÀÇ ÁÂÇ¥
-
     }
 
     // Update is called once per frame
