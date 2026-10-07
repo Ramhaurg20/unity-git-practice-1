@@ -5,19 +5,23 @@ public class 실습2 : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        int a = 1;
-        switch (a<5)
+        for (int i = 1; i < 6; ++i)
         {
-            case true:
-                Debug.Log(a);
-                break;
-            case false:
-                Debug.Log("a가 5보다 큽니다.");
-                break;
-            default:
-                break;
-
+            Debug.Log(i);
         }
+        //int a = 1;
+        //switch (a<5)
+        //{
+        //    case true:
+        //        Debug.Log(a);
+        //        break;
+        //    case false:
+        //        Debug.Log("a가 5보다 큽니다.");
+        //        break;
+        //    default:
+        //        break;
+
+        //}
         //int a = 8;
         //if (a <= 5) ;
         //{
