@@ -3,8 +3,9 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     public float speed = 10f;    //public 외부 공용, private 비공개
-
+    public GameObject Bulletprefab;       // 권한 타입 변수이름
     int[] scores = new int[5];
+
     void Start()
     {
         for (int i = 1; i <= scores.Length; i++) 
@@ -33,6 +34,11 @@ public class PlayerController : MonoBehaviour
 
         Vector3 direction = new Vector3(x, y, 0);
         transform.position += direction.normalized * speed * Time.deltaTime;
+
+        if(Input.GetKeyDown(KeyCode.Space))
+        {
+            GameObject Bullet = Instantiate(Bulletprefab);     //class --> 객체를 만드는 애  instantiate --> (그걸)실체화 시키는 애
+        }
 
 
 
