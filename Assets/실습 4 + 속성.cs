@@ -1,8 +1,15 @@
-/*using UnityEngine;
+using UnityEngine;
 
 public class 실습4 : MonoBehaviour
 {
+    void Start()
+    {
+        Adult Jhon = new Adult("Jhon", 28, 173);
+        Baby Lisa = new Baby("Lisa", 3, 95);
 
+        Debug.Log(Jhon.age);
+        Lisa.Sleep();
+    }
 }
 
 class Human
@@ -59,12 +66,29 @@ class Human
 class Adult : Human
 {
     public Adult(string _name, int _age, float _height) : base(_name, _age, _height) { }
+
+    public void PrintAddress()
+    {
+        Debug.Log(address);
+    }
+
+    public int Age;
+    public void SetBaseAge(int age)
+    {
+        base.age = age;
+    }
+
+    public int GetBaseAge()
+    {
+        return base.age;
+    }
+
 }
 
 class Baby : Human
 {
     public Baby(string _name, int _age, float _height) : base(_name, _age, _height) { }
-}*/
+}
 
 
 
@@ -82,7 +106,7 @@ class Baby : Human
 
 //    void Update()
 //    {
-        
+
 //    }
 //}
 
