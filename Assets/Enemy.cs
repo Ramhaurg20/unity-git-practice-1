@@ -35,7 +35,6 @@ public class Enemy : MonoBehaviour
         {
             TakeDamege(10);
             coll.gameObject.SetActive(false);
-            Debug.Log("Health : " + health);
         }
     }
    public virtual void move()
