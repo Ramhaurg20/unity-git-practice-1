@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 
 public class PlayerController : MonoBehaviour
 {
@@ -39,6 +40,8 @@ public class PlayerController : MonoBehaviour
 
         if(Input.GetKeyDown(KeyCode.Space))
         {
+            //StartCoroutine(ShootEffect());
+
             for (int i = 0; i < 3; i++)
             {
                 GameObject Bullet = Instantiate(Bulletprefab);     //class --> 객체를 만드는 애  instantiate --> (그걸)실체화 시키는 애
@@ -50,6 +53,22 @@ public class PlayerController : MonoBehaviour
 
         }
 
+        //쏠때모양 바뀌는거 
+
+        //IEnumerator ShootEffect()
+        //{
+        //    Vector3 originalScale = transform.localScale;
+
+        //    transform.localScale = new Vector3(
+        //        originalScale.x * 0.9f,
+        //        originalScale.y * 1.2f,
+        //        originalScale.z
+        //    );
+
+        //    yield return new WaitForSeconds(0.1f);
+
+        //    transform.localScale = originalScale;
+        //}
 
         //if (Input.GetKey(KeyCode.UpArrow))
         //{

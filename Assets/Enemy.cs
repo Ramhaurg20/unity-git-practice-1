@@ -21,7 +21,7 @@ public class Enemy : MonoBehaviour
 
     public float GetHealth()
     {
-        return health;
+        return health; 
     }
 
     void Die()
