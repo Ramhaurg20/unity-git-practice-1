@@ -4,7 +4,7 @@ public class Enemy : MonoBehaviour
 {
     float health = 50.0f;
 
-   void TakeDamege(int value)
+   void TakeDamage(int value)
     {
         health -= value;
         if (health <= 0)
@@ -33,7 +33,7 @@ public class Enemy : MonoBehaviour
     {
         if (coll.gameObject.CompareTag("Bullet"))
         {
-            TakeDamege(10);
+            TakeDamage(10);
             coll.gameObject.SetActive(false);
         }
     }

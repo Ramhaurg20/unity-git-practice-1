@@ -46,14 +46,15 @@ public class PlayerController : MonoBehaviour
             {
                 GameObject Bullet = Instantiate(Bulletprefab);     //class --> 객체를 만드는 애  instantiate --> (그걸)실체화 시키는 애
                 Vector3 bulletPos = transform.position;   //뒤에 트랜스폼.포지션 == 플레이어의 위치
-                bulletPos.y += 0.3f * i;
+                bulletPos.y += 0.4f * i;
                 Bullet.transform.position = bulletPos;
                 Bullet.GetComponent<Rigidbody2D>().AddForce(Vector2.up * BulletSpeed);     //너무 어려우니 AI한테 물어보기
             }
 
         }
+       
 
-        //쏠때모양 바뀌는거 
+        //쏠때모양 바뀌는거
 
         //IEnumerator ShootEffect()
         //{

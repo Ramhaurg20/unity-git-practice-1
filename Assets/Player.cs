@@ -23,7 +23,8 @@ public class Player : MonoBehaviour
 
     public void OnCollisionEnter2D(Collision2D collision)
     {
-        TakeDamege(20);
+        if (collision.gameObject.CompareTag("Enemy"))
+            TakeDamege(20);
         Destroy(collision.gameObject);
     }
 
