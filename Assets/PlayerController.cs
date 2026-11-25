@@ -1,32 +1,96 @@
+//using UnityEngine;
+//using System.Collections;
+
+//public class PlayerController : MonoBehaviour
+//{
+//    public float speed = 10f;    //public 외부 공용, private 비공개
+//    public GameObject Bulletprefab;  // 권한 타입 변수이름
+//    public float BulletSpeed = 100f;   // f == 타입
+
+//    //int[] scores = new int[5];
+
+//    void Start()
+//    {
+//        //for (int i = 1; i <= scores.Length; i++) 
+//        //    scores[i-1] = i*10;                         //for 문
+
+//        //Debug.Log(scores[0]); 
+//        //Debug.Log(scores[1]); 
+//        //Debug.Log(scores[2]); 
+//        //Debug.Log(scores[3]); 
+//        //Debug.Log(scores[4]);
+
+//        //bool a = true;
+//        //bool b = false;
+//        //gameObject.SetActive(a || b);
+//        //Vector2 newPos = transform.position;
+//        //newPos.x = newPos.x + 5;
+//        //transform.position = newPos;
+//        /* transform.position = Vector3.one; */ // (1,1,1)의 좌표
+//    }
+
+//    // Update is called once per frame
+//    void Update()
+//    {
+//        float x = Input.GetAxisRaw("Horizontal");
+//        float y = Input.GetAxisRaw("Vertical");
+
+//        Vector3 direction = new Vector3(x, y, 0);
+//        transform.position += direction.normalized * speed * Time.deltaTime;
+
+//        if(Input.GetKeyDown(KeyCode.Space))
+//        {
+//            //StartCoroutine(ShootEffect());
+
+//            for (int i = 0; i < 3; i++)
+//            {
+//                GameObject Bullet = Instantiate(Bulletprefab);     //class --> 객체를 만드는 애  instantiate --> (그걸)실체화 시키는 애
+//                Vector3 bulletPos = transform.position;   //뒤에 트랜스폼.포지션 == 플레이어의 위치
+//                bulletPos.y += 0.4f * i;
+//                Bullet.transform.position = bulletPos;
+//                Bullet.GetComponent<Rigidbody2D>().AddForce(Vector2.up * BulletSpeed);     //너무 어려우니 AI한테 물어보기
+//            }
+
+//        }
+
+
+
+//    }
+//}
 using UnityEngine;
 using System.Collections;
 
 public class PlayerController : MonoBehaviour
 {
-    public float speed = 10f;    //public 외부 공용, private 비공개
-    public GameObject Bulletprefab;  // 권한 타입 변수이름
-    public float BulletSpeed = 100f;   // f == 타입
+    public float speed = 10f; //public 외부 공용, private 비공개
+    public GameObject BulletPrefab;
+    public float BulletSpeed = 100f;
+    int[] scores = new int[5];
 
-    //int[] scores = new int[5];
+    // 반동 효과 변수 추가
+    public Transform playerSprite;
+    public float recoilAmount = 0.2f;
+    public float recoilSpeed = 10f;
 
     void Start()
     {
-        //for (int i = 1; i <= scores.Length; i++) 
-        //    scores[i-1] = i*10;                         //for 문
+        for (int i = 1; i < scores.Length; i++)
+            scores[i - 1] = (i + 1) * 10;
 
-        //Debug.Log(scores[0]); 
-        //Debug.Log(scores[1]); 
-        //Debug.Log(scores[2]); 
-        //Debug.Log(scores[3]); 
-        //Debug.Log(scores[4]);
-        
+        Debug.Log(scores[0]);
+        Debug.Log(scores[1]);
+        Debug.Log(scores[2]);
+        Debug.Log(scores[3]);
+        Debug.Log(scores[4]);
+
         //bool a = true;
         //bool b = false;
         //gameObject.SetActive(a || b);
         //Vector2 newPos = transform.position;
         //newPos.x = newPos.x + 5;
         //transform.position = newPos;
-        /* transform.position = Vector3.one; */ // (1,1,1)의 좌표
+
+        //transform.position = Vector3.one; //(1, 1, 1)
     }
 
     // Update is called once per frame
@@ -38,54 +102,63 @@ public class PlayerController : MonoBehaviour
         Vector3 direction = new Vector3(x, y, 0);
         transform.position += direction.normalized * speed * Time.deltaTime;
 
-        if(Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space)) //y축 수정해서 3발
         {
-            //StartCoroutine(ShootEffect());
+            StartCoroutine(ShootEffect());
+            StartCoroutine(RecoilEffect());
 
             for (int i = 0; i < 3; i++)
             {
-                GameObject Bullet = Instantiate(Bulletprefab);     //class --> 객체를 만드는 애  instantiate --> (그걸)실체화 시키는 애
-                Vector3 bulletPos = transform.position;   //뒤에 트랜스폼.포지션 == 플레이어의 위치
-                bulletPos.y += 0.4f * i;
+                GameObject Bullet = Instantiate(BulletPrefab);
+                Vector3 bulletPos = transform.position;
+
+                bulletPos.y += 0.3f * i;
                 Bullet.transform.position = bulletPos;
-                Bullet.GetComponent<Rigidbody2D>().AddForce(Vector2.up * BulletSpeed);     //너무 어려우니 AI한테 물어보기
+                Bullet.GetComponent<Rigidbody2D>().
+                                     AddForce(Vector2.up * BulletSpeed);
             }
-
         }
-       
+    }
 
-        //쏠때모양 바뀌는거
+    IEnumerator ShootEffect()
+    {
+        Vector3 originalScale = transform.localScale;
 
-        //IEnumerator ShootEffect()
-        //{
-        //    Vector3 originalScale = transform.localScale;
+        // 세로로 길어지고 가로로 짧아짐
+        transform.localScale = new Vector3(
+            originalScale.x * 0.9f,
+            originalScale.y * 1.2f,
+            originalScale.z
+        );
 
-        //    transform.localScale = new Vector3(
-        //        originalScale.x * 0.9f,
-        //        originalScale.y * 1.2f,
-        //        originalScale.z
-        //    );
+        yield return new WaitForSeconds(0.1f);
 
-        //    yield return new WaitForSeconds(0.1f);
+        // 원래 크기로 복구
+        transform.localScale = originalScale;
+    }
 
-        //    transform.localScale = originalScale;
-        //}
+    // 위치 반동 효과
+    IEnumerator RecoilEffect()
+    {
+        Vector3 originalPosition = playerSprite.localPosition;
 
-        //if (Input.GetKey(KeyCode.UpArrow))
-        //{
-        //    this.transform.Translate(0, speed, 0);
-        //}
-        //if (Input.GetKey(KeyCode.DownArrow))
-        //{
-        //    this.transform.Translate(0, -speed, 0);
-        //}
-        //if (Input.GetKey(KeyCode.LeftArrow))
-        //{
-        //    this.transform.Translate(-speed, 0, 0);
-        //}
-        //if (Input.GetKey(KeyCode.RightArrow))
-        //{
-        //    this.transform.Translate(speed, 0, 0);
-        //}
+        // 살짝 위로 밀림
+        playerSprite.localPosition = originalPosition + Vector3.up * recoilAmount;
+
+        yield return new WaitForSeconds(0.1f);
+
+        // 원래 위치로 부드럽게 복귀
+        while (Vector3.Distance(playerSprite.localPosition, originalPosition) > 0.03f)
+        {
+            playerSprite.localPosition = Vector3.Lerp(
+                playerSprite.localPosition,
+                originalPosition,
+                recoilSpeed * Time.deltaTime
+            );
+
+            yield return null;
+        }
+
+        playerSprite.localPosition = originalPosition;
     }
 }
